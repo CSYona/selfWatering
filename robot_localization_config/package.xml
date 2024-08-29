@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>robot_localization_config</name>
+  <version>0.1.0</version>
+  <description>Configuration files and launch files for using robot_localization with IMU and encoder data.</description>
+
+  <maintainer email="your.email@example.com">Your Name</maintainer>
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>robot_localization</depend> <!-- 이 부분은 robot_localization_config와 혼동하지 말고, 실제로 이 패키지에 의존해야 하는 경우 유지 -->
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
+
