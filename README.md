@@ -1,13 +1,11 @@
-🤖 STELLA 자율주행 자동 수분 공급 시스템
+STELLA 자율주행 자동 수분 공급 시스템
 ===========================
 
-[![ROS2](https://img.shields.io/badge/ROS2-Humble-blue.svg)](https://docs.ros.org/en/humble/) [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://claude.ai/chat/LICENSE)
 
-ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
 
 * * *
 
-📋 목차
+목차
 -----
 
 * [프로젝트 개요](https://claude.ai/chat/529da2e9-3846-4d9e-b0c6-5b869d54c61b#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
@@ -53,7 +51,7 @@ ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
 
 * * *
 
-✨ 주요 기능
+주요 기능
 -------
 
 **자율 주행**: Waypoint 기반 순차 주행
@@ -93,7 +91,7 @@ ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
 
 * * *
 
-💻 소프트웨어 구성
+소프트웨어 구성
 -----------
 
 ### ROS2 패키지 구조
@@ -141,21 +139,11 @@ ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
     chmod +x teleop_keyboard.py
     cd ~/colcon_ws
     colcon build --symlink-install
-
-### 2. 워크스페이스 설정
-
-    # 워크스페이스 생성
-    mkdir -p ~/colcon_ws/src
-    cd ~/colcon_ws/src
     
-    # STELLA 패키지 클론
-    git clone https://github.com/ntrexlab/STELLA_REMOTE_PC_ROS2_N2.git
-    
-    # 의존성 설치
-    cd ~/colcon_ws
-    rosdep install -i --from-path src --rosdistro humble -y
+    ​
+    [출처] [STELLA N2 CAM] 원격 PC와 라즈베리파이 기본 설정 방법|작성자 idea_robot
 
-### 3. 우리가 추가한 파일 설정
+### 2. 추가한 파일 설정
 
     cd ~/colcon_ws/src/STELLA_REMOTE_PC_ROS2_N2/stella_navigation2
     
@@ -171,7 +159,7 @@ ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
     # launch 파일 추가
     # autonav.launch.py를 launch/ 폴더에 복사
 
-### 4. CMakeLists.txt 수정
+### 3. CMakeLists.txt 수정
 
     # 기존 install 섹션에 추가
     install(
@@ -184,7 +172,7 @@ ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
       DESTINATION lib/${PROJECT_NAME}
     )
 
-### 5. 빌드
+### 4. 빌드
 
     cd ~/colcon_ws
     colcon build --packages-select stella_navigation2
@@ -192,14 +180,15 @@ ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
 
 * * *
 
-🎮 사용 방법
+사용 방법
 --------
 
 ### 1단계: 맵 생성 (최초 1회)
 
     # 로봇 하드웨어 구동
     ros2 launch stella_bringup robot.launch.py
-    
+    # 새 터미널에서 수동 조종 패키지 파일 실행
+    ﻿ros2 run stella_teleop teleop_keyboard
     # 새 터미널에서 Cartographer 실행
     ros2 launch stella_cartographer cartographer.launch.py
     
@@ -244,7 +233,7 @@ ROS2 기반 자율주행 로봇을 활용한 수분 공급 시스템
 
 * * *
 
-📂 파일 구조
+파일 구조
 --------
 
 ### 추가된 핵심 파일
@@ -294,7 +283,7 @@ Waypoint를 순차적으로 주행하는 ROS2 노드
 
 * * *
 
-🐛 문제 해결
+문제 해결
 --------
 
 ### 문제 1: "navigate_to_pose Action Server를 찾을 수 없습니다"
@@ -307,17 +296,9 @@ Waypoint를 순차적으로 주행하는 ROS2 노드
     # 5-10초 대기 후 다시 시도
     # autonav.launch.py에서 자동으로 5초 대기 설정됨
 
-### 문제 2: "Waypoint 파일을 찾을 수 없습니다"
 
-**원인**: 경로 설정 오류
 
-**해결**:
-    # 절대 경로 확인
-    ros2 pkg prefix stella_navigation2
-    # waypoints.yaml 파일 존재 확인
-    ls $(ros2 pkg prefix stella_navigation2)/share/stella_navigation2/waypoints/
-
-### 문제 3: 로봇이 waypoint로 이동하지 않음
+### 문제 2: 로봇이 waypoint로 이동하지 않음
 
 **원인**: 맵 좌표계 오류 또는 초기 위치 미설정
 
@@ -327,7 +308,7 @@ Waypoint를 순차적으로 주행하는 ROS2 노드
     # 맵이 올바르게 로드되었는지 확인
     ros2 topic echo /map --once
 
-### 문제 4: Costmap inflation radius 조정
+### 문제 3: Costmap inflation radius 조정
 
 **문제**: 로봇이 좁은 통로를 통과하지 못함
 
@@ -338,87 +319,12 @@ Waypoint를 순차적으로 주행하는 ROS2 노드
     # 기본값: 1.0 → 줄이기: 0.5 (좁은 통로)
     # 기본값: 1.0 → 늘리기: 1.5 (안전 마진 증가)
 
-* * *
 
-🚧 향후 개선 사항
------------
-
-### 계획했으나 시간 부족으로 미구현
-
-#### 1. 고급 경로 계획
-
-* [ ] 다중 경로 최적화 알고리즘
-* [ ] 동적 waypoint 재계산
-* [ ] 배터리 상태 고려한 경로 계획
-
-#### 2. 센서 통합
-
-* [ ] 로봇과 센서 간 직접 통신
-* [ ] 실시간 센서 데이터 ROS2 토픽 발행
-* [ ] 수분 부족 감지 시 자동 알림
-
-#### 3. 웹 인터페이스 고도화
-
-* [ ] 실시간 로봇 위치 표시
-* [ ] 센서 데이터 그래프 시각화
-* [ ] 원격 제어 기능
-* [ ] 주행 이력 저장 및 분석
-
-#### 4. 다중 로봇 협업
-
-* [ ] 여러 로봇 동시 운용
-* [ ] 작업 분배 및 충돌 회피
-* [ ] 중앙 제어 시스템
-
-#### 5. 딥러닝 기반 기능
-
-* [ ] 객체 인식을 통한 장애물 분류
-* [ ] 작물 상태 모니터링
-* [ ] 예측 기반 수분 공급 계획
-
-#### 6. 시스템 안정성
-
-* [ ] Systemd 서비스 등록으로 부팅 시 자동 시작
-* [ ] 오류 복구 및 재시작 메커니즘
-* [ ] 로그 시스템 강화
 
 * * *
 
-📊 성능 지표
+참고 자료
 --------
-
-### 테스트 환경
-
-* **면적**: 약 50㎡ 실내 환경
-* **Waypoint 개수**: 5개
-* **총 주행 거리**: 약 15m
-
-### 측정 결과
-
-* **평균 주행 시간**: 약 3분
-* **Waypoint 도달 정확도**: ±10cm
-* **장애물 회피 성공률**: 95%
-* **배터리 소모**: 약 5% (3분 주행 기준)
-
-* * *
-
-👥 팀 구성
--------
-
-* **주행 제어**: Waypoint navigation 구현
-* **센서 시스템**: 토양 센서 데이터 수집 및 모니터링
-* **통합 및 테스트**: 전체 시스템 통합 및 검증
-
-* * *
-
-📚 참고 자료
---------
-
-### 공식 문서
-
-* [ROS2 Humble Documentation](https://docs.ros.org/en/humble/)
-* [Nav2 Documentation](https://navigation.ros.org/)
-* [Cartographer ROS](https://google-cartographer-ros.readthedocs.io/)
 
 ### STELLA 로봇 관련
 
@@ -432,31 +338,9 @@ Waypoint를 순차적으로 주행하는 ROS2 노드
 
 * * *
 
-📄 라이선스
+라이선스
 -------
 
 본 프로젝트는 Apache 2.0 라이선스를 따릅니다.
 
-* STELLA 로봇 패키지: Apache 2.0 (NTREX Co., Ltd.)
-* 추가 구현 코드: Apache 2.0
-
-* * *
-
-🙏 감사의 말
---------
-
-* **NTREX**: STELLA N2 로봇 플랫폼 제공
-* **ROS2 Community**: 훌륭한 오픈소스 생태계
-* **Nav2 Team**: 강력한 자율주행 프레임워크
-
-* * *
-
-📧 문의
------
-
-프로젝트 관련 문의사항이 있으시면 Issue를 등록해주세요.
-
-* * *
-
-**마지막 업데이트**: 2024년 12월  
-**프로젝트 상태**: 부분 구현 완료 (Waypoint navigation 동작 확인)
+* STELLA 로봇 패키지: Apache 2.0 (NTREX Co., Ltd.) 
