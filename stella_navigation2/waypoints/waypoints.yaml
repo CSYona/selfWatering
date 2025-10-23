@@ -1,0 +1,30 @@
+waypoints:
+  - name: "시작 지점"
+    x: -1.823
+    y: -1.987
+    yaw: 0.087
+    description: "충전 구역 / 대기 위치"
+    
+  - name: "1번"
+    x: 0.890
+    y: 0.456
+    yaw: 1.570  
+    description: "1번 구역"
+    
+  - name: "2번"
+    x: -1.456
+    y: 1.678
+    yaw: 3.141  
+    description: "2번 구역"
+    
+  - name: "3번"
+    x: 1.678
+    y: 1.345
+    yaw: -0.523   
+    description: "3번 구역"
+    
+  - name: "복귀 지점"
+    x: -1.823
+    y: -1.987
+    yaw: 0.087
+    description: "충전 구역으로 복귀"
